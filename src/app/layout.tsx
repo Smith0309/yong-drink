@@ -4,8 +4,8 @@ import "./globals.css";
 import { Header } from "./components";
 
 export const metadata: Metadata = {
-  title: "Next.js on Firebase App Hosting",
-  description: "",
+  title: "Yong Drink - AI 음주관리 가이드",
+  description: "AI를 활용한 개인 맞춤형 음주관리 서비스. 건강한 음주 습관을 위한 스마트한 가이드를 제공합니다.",
 };
 
 export default function RootLayout({

@@ -1,7 +1,7 @@
-# Next.js on Firebase App Hosting
+# Yong Drink - AI 음주관리 가이드
 
-This is an example [Next.js](https://nextjs.org/) project to demonstrate SSG,
-SSR, and ISR on [Firebase App Hosting](https://firebase.google.com/docs/app-hosting).
+Yong Drink는 AI를 활용한 개인 맞춤형 음주관리 서비스입니다. 
+사용자의 음주 패턴을 분석하고 건강한 음주 습관을 위한 가이드를 제공합니다.
 
 ## Getting Started
 
