@@ -7,7 +7,14 @@ export default function DashboardPage() {
   const [showGoalForm, setShowGoalForm] = useState(false);
   const [showRecordForm, setShowRecordForm] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  // 한국 시간 기준으로 오늘 날짜를 가져오는 함수
+  const getKoreanDate = () => {
+    const now = new Date();
+    const koreanTime = new Date(now.getTime() + (9 * 60 * 60 * 1000)); // UTC+9
+    return koreanTime.toISOString().split('T')[0];
+  };
+
+  const [selectedDate, setSelectedDate] = useState(getKoreanDate());
 
   const handleGoalSuccess = () => {
     setShowGoalForm(false);

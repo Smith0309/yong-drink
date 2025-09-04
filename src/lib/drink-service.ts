@@ -152,35 +152,35 @@ export const getDailyRecord = async (userId: string, date: string): Promise<Dail
 
 export const getDailyRecords = async (userId: string, startDate: string, endDate: string): Promise<DailyDrinkRecord[]> => {
   try {
+    console.log('Getting daily records for user:', userId, 'from', startDate, 'to', endDate);
+    
     const q = query(
       collection(db, 'dailyRecords'),
       where('userId', '==', userId),
       where('date', '>=', startDate),
-      where('date', '<=', endDate)
+      where('date', '<=', endDate),
+      orderBy('date', 'desc')
     );
     
     const querySnapshot = await getDocs(q);
+    console.log('Found', querySnapshot.docs.length, 'records');
     
-    // 클라이언트에서 정렬 (인덱스 불필요)
-    const docs = querySnapshot.docs.sort((a, b) => {
-      const aDate = a.data().date;
-      const bDate = b.data().date;
-      return bDate.localeCompare(aDate); // 최신순
-    });
-    
-    return docs.map(doc => {
+    const records = querySnapshot.docs.map(doc => {
       const data = doc.data();
       return {
         id: doc.id,
         userId: data.userId,
         date: data.date,
         drank: data.drank,
-        sojuBottles: data.sojuBottles,
-        beerCans: data.beerCans,
+        sojuBottles: data.sojuBottles || 0,
+        beerCans: data.beerCans || 0,
         createdAt: data.createdAt?.toDate() || new Date(),
         updatedAt: data.updatedAt?.toDate() || new Date(),
       };
     });
+    
+    console.log('Processed records:', records);
+    return records;
   } catch (error) {
     console.error('Error getting daily records:', error);
     return [];

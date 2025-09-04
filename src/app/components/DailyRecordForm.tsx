@@ -10,8 +10,15 @@ interface DailyRecordFormProps {
   onSuccess?: () => void;
 }
 
+// 한국 시간 기준으로 오늘 날짜를 가져오는 함수
+const getKoreanDate = () => {
+  const now = new Date();
+  const koreanTime = new Date(now.getTime() + (9 * 60 * 60 * 1000)); // UTC+9
+  return koreanTime.toISOString().split('T')[0];
+};
+
 export const DailyRecordForm: React.FC<DailyRecordFormProps> = ({ 
-  date = new Date().toISOString().split('T')[0], 
+  date = getKoreanDate(), 
   onSuccess 
 }) => {
   const { user } = useAuth();

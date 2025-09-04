@@ -64,14 +64,17 @@ export default function AnalysisPage() {
       }
       
       const userId = user.uid;
+      console.log('Loading analysis data for user:', userId, 'type:', analysisType, 'year:', year);
       
       if (analysisType === 'weekly') {
         const data = await getWeeklyAnalysis(userId, year);
+        console.log('Weekly analysis data:', data);
         setWeeklyData(data);
         setMonthlyData([]);
         setCustomData(null);
       } else if (analysisType === 'monthly') {
         const data = await getMonthlyAnalysis(userId, year);
+        console.log('Monthly analysis data:', data);
         setMonthlyData(data);
         setWeeklyData([]);
         setCustomData(null);
@@ -81,13 +84,14 @@ export default function AnalysisPage() {
           return;
         }
         const data = await getCustomPeriodAnalysis(userId, customStartDate, customEndDate);
+        console.log('Custom analysis data:', data);
         setCustomData(data);
         setWeeklyData([]);
         setMonthlyData([]);
       }
     } catch (err) {
-      setError('분석 데이터를 불러오는 중 오류가 발생했습니다.');
       console.error('Analysis error:', err);
+      setError(`분석 데이터를 불러오는 중 오류가 발생했습니다: ${err instanceof Error ? err.message : '알 수 없는 오류'}`);
     } finally {
       setLoading(false);
     }
@@ -185,8 +189,16 @@ export default function AnalysisPage() {
                   onChange={(e) => handleYearChange(parseInt(e.target.value))}
                   className="year-select"
                 >
-                  {Array.from({ length: 5 }, (_, i) => {
+                  {Array.from({ length: 7 }, (_, i) => {
                     const yearOption = new Date().getFullYear() - i;
+                    return (
+                      <option key={yearOption} value={yearOption}>
+                        {yearOption}년
+                      </option>
+                    );
+                  })}
+                  {Array.from({ length: 4 }, (_, i) => {
+                    const yearOption = new Date().getFullYear() + i + 1;
                     return (
                       <option key={yearOption} value={yearOption}>
                         {yearOption}년

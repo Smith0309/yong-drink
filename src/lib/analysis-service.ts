@@ -11,13 +11,16 @@ import { getDailyRecords, getDrinkGoal } from './drink-service';
 
 // 주간 분석 데이터 생성
 export const getWeeklyAnalysis = async (userId: string, year: number): Promise<WeeklyAnalysis[]> => {
+  console.log('Starting weekly analysis for user:', userId, 'year:', year);
   const weeklyAnalyses: WeeklyAnalysis[] = [];
   const goal = await getDrinkGoal(userId);
+  console.log('Drink goal:', goal);
   
   // 해당 연도의 모든 일일 기록 가져오기
   const startDate = `${year}-01-01`;
   const endDate = `${year}-12-31`;
   const records = await getDailyRecords(userId, startDate, endDate);
+  console.log('Retrieved records for analysis:', records.length);
   
   // 기록을 날짜별로 맵핑
   const recordsMap = new Map<string, DailyDrinkRecord>();
@@ -71,12 +74,14 @@ export const getWeeklyAnalysis = async (userId: string, year: number): Promise<W
 
 // 월간 분석 데이터 생성
 export const getMonthlyAnalysis = async (userId: string, year: number): Promise<MonthlyAnalysis[]> => {
+  console.log('Starting monthly analysis for user:', userId, 'year:', year);
   const monthlyAnalyses: MonthlyAnalysis[] = [];
   
   // 해당 연도의 모든 일일 기록 가져오기
   const startDate = `${year}-01-01`;
   const endDate = `${year}-12-31`;
   const records = await getDailyRecords(userId, startDate, endDate);
+  console.log('Retrieved records for monthly analysis:', records.length);
   
   // 기록을 날짜별로 맵핑
   const recordsMap = new Map<string, DailyDrinkRecord>();
@@ -126,7 +131,9 @@ export const getCustomPeriodAnalysis = async (
   startDate: string, 
   endDate: string
 ): Promise<CustomPeriodAnalysis> => {
+  console.log('Starting custom period analysis for user:', userId, 'from', startDate, 'to', endDate);
   const records = await getDailyRecords(userId, startDate, endDate);
+  console.log('Retrieved records for custom analysis:', records.length);
   
   const totalDays = calculateDaysBetween(startDate, endDate);
   const drinkingDays = records.filter(r => r.drank).length;
