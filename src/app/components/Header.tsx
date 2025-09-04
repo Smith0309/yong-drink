@@ -12,8 +12,8 @@ export function Header() {
     <header className="header">
       <div className="header-container">
         <Link href="/" className="logo">
-          <span className="logo-icon">🍷</span>
-          <span className="logo-text">Yong Drink</span>
+          <span className="logo-icon">🍶</span>
+          <span className="logo-text">용 드링크</span>
         </Link>
         
         <nav className="nav">
