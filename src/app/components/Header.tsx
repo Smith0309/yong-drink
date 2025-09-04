@@ -20,6 +20,9 @@ export function Header() {
           <Link href="/features" className="nav-link">기능</Link>
           <Link href="/about" className="nav-link">소개</Link>
           <Link href="/contact" className="nav-link">문의</Link>
+          {user && (
+            <Link href="/analysis" className="nav-link">AI 분석</Link>
+          )}
         </nav>
 
         <div className="header-actions">

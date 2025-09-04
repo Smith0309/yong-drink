@@ -94,7 +94,12 @@ export default function DashboardPage() {
             <div className="dashboard-card">
               <h3>AI 분석</h3>
               <p>당신의 음주 패턴을 분석해보세요.</p>
-              <button className="btn-secondary">분석 보기</button>
+              <button 
+                className="btn-secondary"
+                onClick={() => window.location.href = '/analysis'}
+              >
+                분석 보기
+              </button>
             </div>
             
             <div className="dashboard-card">
