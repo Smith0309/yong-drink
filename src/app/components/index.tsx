@@ -7,3 +7,8 @@ export { SignupForm } from "./SignupForm";
 export { ProtectedRoute } from "./ProtectedRoute";
 export { AuthGuard } from "./AuthGuard";
 export { default as Loading } from "./Loading";
+export { DrinkGoalForm } from "./DrinkGoalForm";
+export { DailyRecordForm } from "./DailyRecordForm";
+export { DrinkGoalCard } from "./DrinkGoalCard";
+export { DailyRecordCard } from "./DailyRecordCard";
+export { DrinkCalendar } from "./DrinkCalendar";

@@ -1,6 +1,28 @@
-import { ProtectedRoute } from '@/app/components';
+'use client';
+
+import { useState } from 'react';
+import { ProtectedRoute, DrinkGoalCard, DailyRecordCard, DrinkGoalForm, DailyRecordForm, DrinkCalendar } from '@/app/components';
 
 export default function DashboardPage() {
+  const [showGoalForm, setShowGoalForm] = useState(false);
+  const [showRecordForm, setShowRecordForm] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+
+  const handleGoalSuccess = () => {
+    setShowGoalForm(false);
+  };
+
+  const handleRecordSuccess = () => {
+    setShowRecordForm(false);
+  };
+
+  const handleDateSelect = (date: string) => {
+    setSelectedDate(date);
+    setShowRecordForm(true);
+    setShowCalendar(false);
+  };
+
   return (
     <ProtectedRoute>
       <main className="dashboard">
@@ -11,11 +33,63 @@ export default function DashboardPage() {
           </p>
           
           <div className="dashboard-content">
-            <div className="dashboard-card">
-              <h3>음주 기록</h3>
-              <p>오늘의 음주 기록을 추가해보세요.</p>
-              <button className="btn-primary">기록 추가</button>
-            </div>
+            {showGoalForm ? (
+              <div className="dashboard-card full-width">
+                <DrinkGoalForm onSuccess={handleGoalSuccess} />
+                <button 
+                  onClick={() => setShowGoalForm(false)}
+                  className="btn-secondary"
+                  style={{ marginTop: '1rem' }}
+                >
+                  취소
+                </button>
+              </div>
+            ) : (
+              <DrinkGoalCard onEdit={() => setShowGoalForm(true)} />
+            )}
+
+            {showCalendar ? (
+              <div className="dashboard-card full-width">
+                <DrinkCalendar 
+                  onDateSelect={handleDateSelect}
+                  selectedDate={selectedDate}
+                />
+                <button 
+                  onClick={() => setShowCalendar(false)}
+                  className="btn-secondary"
+                  style={{ marginTop: '1rem' }}
+                >
+                  닫기
+                </button>
+              </div>
+            ) : showRecordForm ? (
+              <div className="dashboard-card full-width">
+                <DailyRecordForm 
+                  date={selectedDate}
+                  onSuccess={handleRecordSuccess} 
+                />
+                <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                  <button 
+                    onClick={() => setShowRecordForm(false)}
+                    className="btn-secondary"
+                  >
+                    취소
+                  </button>
+                  <button 
+                    onClick={() => setShowCalendar(true)}
+                    className="btn-secondary"
+                  >
+                    날짜 선택
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <DailyRecordCard 
+                date={selectedDate}
+                onEdit={() => setShowRecordForm(true)}
+                onCalendar={() => setShowCalendar(true)}
+              />
+            )}
             
             <div className="dashboard-card">
               <h3>AI 분석</h3>
