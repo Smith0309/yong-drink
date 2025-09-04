@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
 
 export function Header() {
   const pathname = usePathname();
+  const { user, logOut, loading } = useAuth();
 
   return (
     <header className="header">
@@ -21,8 +23,33 @@ export function Header() {
         </nav>
 
         <div className="header-actions">
-          <button className="btn-login">로그인</button>
-          <button className="btn-signup">회원가입</button>
+          {loading ? (
+            <div className="loading-spinner">로딩 중...</div>
+          ) : user ? (
+            <>
+              <Link href="/dashboard" className="btn-secondary">
+                대시보드
+              </Link>
+              <span className="user-name">
+                {user.displayName || user.email}
+              </span>
+              <button 
+                onClick={logOut} 
+                className="btn-logout"
+              >
+                로그아웃
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href="/login" className="btn-login">
+                로그인
+              </Link>
+              <Link href="/signup" className="btn-signup">
+                회원가입
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>

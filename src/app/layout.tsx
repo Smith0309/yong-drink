@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 import { Header } from "./components";
+import { AuthProvider } from "@/providers/AuthProvider";
 
 export const metadata: Metadata = {
   title: "Yong Drink - AI 음주관리 가이드",
@@ -22,8 +23,10 @@ export default function RootLayout({
       </head>
       <body>
         <div className="dots" />
-        <Header />
-        {children}
+        <AuthProvider>
+          <Header />
+          {children}
+        </AuthProvider>
         <div className="bottom-gradient" />
       </body>
     </html>

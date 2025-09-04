@@ -1,4 +1,30 @@
+'use client';
+
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import Link from 'next/link';
+
 export default function Home() {
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && user) {
+      router.push('/dashboard');
+    }
+  }, [user, loading, router]);
+
+  if (loading) {
+    return (
+      <main className="content">
+        <div className="loading-container">
+          <div className="loading-spinner">로딩 중...</div>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="content">
       <section className="hero">
@@ -9,8 +35,8 @@ export default function Home() {
           당신의 음주 패턴을 분석하고 최적의 조언을 제공합니다.
         </p>
         <div className="cta-buttons">
-          <button className="btn-primary">지금 시작하기</button>
-          <button className="btn-secondary">더 알아보기</button>
+          <Link href="/signup" className="btn-primary">지금 시작하기</Link>
+          <Link href="/login" className="btn-secondary">로그인</Link>
         </div>
       </section>
 
